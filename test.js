@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const baseUrl = "http://localhost:3000/api";
+const baseUrl = "https://cost-manager-restful-web.onrender.com/api";
 
 async function runTests() {
   try {
@@ -25,13 +25,35 @@ async function runTests() {
     res = await axios.get(`${baseUrl}/users/123123`);
     console.log(res.data);
 
-    console.log("\n=== Adding cost with POST /add ===");
+    console.log("\n=== Adding cost (food) with POST /add ===");
     res = await axios.post(`${baseUrl}/add`, {
       userid: 123123,
       description: "milk",
       category: "food",
       sum: 8,
     });
+    console.log(res.data);
+
+    console.log("\n=== Adding another cost (food) ===");
+    res = await axios.post(`${baseUrl}/add`, {
+      userid: 123123,
+      description: "bread",
+      category: "food",
+      sum: 5,
+    });
+    console.log(res.data);
+
+    console.log("\n=== Adding another cost (health) ===");
+    res = await axios.post(`${baseUrl}/add`, {
+      userid: 123123,
+      description: "vitamins",
+      category: "health",
+      sum: 20,
+    });
+    console.log(res.data);
+
+    console.log("\n=== Getting user details with GET /users/123123 ===");
+    res = await axios.get(`${baseUrl}/users/123123`);
     console.log(res.data);
 
     console.log("\n=== Getting report with GET /report ===");
