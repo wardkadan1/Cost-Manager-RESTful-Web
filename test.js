@@ -1,0 +1,57 @@
+const axios = require("axios");
+
+const baseUrl = "http://localhost:3000/api";
+
+async function runTests() {
+  try {
+    console.log("=== Testing /about ===");
+    let res = await axios.get(`${baseUrl}/about`);
+    console.log(res.data);
+
+    console.log("\n=== Adding user with POST /add ===");
+    res = await axios.post(`${baseUrl}/add`, {
+      id: 123123,
+      first_name: "mosh",
+      last_name: "israeli",
+      birthday: "1990-01-01",
+    });
+    console.log(res.data);
+
+    console.log("\n=== Listing users with GET /users ===");
+    res = await axios.get(`${baseUrl}/users`);
+    console.log(res.data);
+
+    console.log("\n=== Getting user details with GET /users/123123 ===");
+    res = await axios.get(`${baseUrl}/users/123123`);
+    console.log(res.data);
+
+    console.log("\n=== Adding cost with POST /add ===");
+    res = await axios.post(`${baseUrl}/add`, {
+      userid: 123123,
+      description: "milk",
+      category: "food",
+      sum: 8,
+    });
+    console.log(res.data);
+
+    console.log("\n=== Getting report with GET /report ===");
+    const now = new Date();
+    const year = now.getUTCFullYear();
+    const month = now.getUTCMonth() + 1;
+    res = await axios.get(
+      `${baseUrl}/report?id=123123&year=${year}&month=${month}`
+    );
+    console.log(JSON.stringify(res.data, null, 2));
+
+    console.log("\n=== Getting logs with GET /logs ===");
+    res = await axios.get(`${baseUrl}/logs`);
+    console.log(res.data);
+  } catch (err) {
+    console.error(
+      "Test error:",
+      err.response ? err.response.data : err.message
+    );
+  }
+}
+
+runTests();
