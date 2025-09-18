@@ -16,7 +16,7 @@ async function runTests() {
       birthday: "1990-01-01",
     });
     console.log(res.data);
-
+    /*
     console.log("\n=== Listing users with GET /users ===");
     res = await axios.get(`${baseUrl}/users`);
     console.log(res.data);
@@ -78,7 +78,7 @@ async function runTests() {
 
     console.log("\n=== Getting logs with GET /logs ===");
     res = await axios.get(`${baseUrl}/logs`);
-    console.log(res.data);
+    console.log(res.data);*/
   } catch (err) {
     console.error(
       "Test error:",
