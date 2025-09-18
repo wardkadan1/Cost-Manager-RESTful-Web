@@ -25,6 +25,18 @@ async function runTests() {
     res = await axios.get(`${baseUrl}/users/123123`);
     console.log(res.data);
 
+    const now = new Date();
+    const year = now.getUTCFullYear();
+    const month = now.getUTCMonth() + 1;
+    const oldMonth = month === 1 ? 12 : month - 1;
+    const oldYear = month === 1 ? year - 1 : year;
+
+    console.log("\n=== Getting report for OLD month (should be empty) ===");
+    res = await axios.get(
+      `${baseUrl}/report?id=123123&year=${oldYear}&month=${oldMonth}`
+    );
+    console.log(JSON.stringify(res.data, null, 2));
+
     console.log("\n=== Adding cost (food) with POST /add ===");
     res = await axios.post(`${baseUrl}/add`, {
       userid: 123123,
@@ -56,10 +68,9 @@ async function runTests() {
     res = await axios.get(`${baseUrl}/users/123123`);
     console.log(res.data);
 
-    console.log("\n=== Getting report with GET /report ===");
-    const now = new Date();
-    const year = now.getUTCFullYear();
-    const month = now.getUTCMonth() + 1;
+    console.log(
+      "\n=== Getting report for CURRENT month (should show costs) ==="
+    );
     res = await axios.get(
       `${baseUrl}/report?id=123123&year=${year}&month=${month}`
     );
