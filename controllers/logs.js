@@ -1,3 +1,4 @@
+const serverError = require("../utils/serverError");
 const Log = require("../models/Log");
 
 exports.listLogs = async (req, res) => {
@@ -5,6 +6,6 @@ exports.listLogs = async (req, res) => {
     const logs = await Log.find({}, { _id: 0 }).sort({ at: -1 }).limit(500);
     return res.json(logs);
   } catch (e) {
-    return res.status(500).json({ error: "server_error", details: e.message });
+    return serverError(req, res, e);
   }
 };

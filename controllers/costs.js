@@ -1,3 +1,4 @@
+const serverError = require("../utils/serverError");
 const User = require("../models/User");
 const Cost = require("../models/Cost");
 
@@ -103,6 +104,6 @@ exports.add = async (req, res) => {
         .status(400)
         .json({ error: "validation_error", details: e.message });
     }
-    return res.status(500).json({ error: "server_error", details: e.message });
+    return serverError(req, res, e);
   }
 };

@@ -1,3 +1,4 @@
+const serverError = require("../utils/serverError");
 exports.getTeam = async (req, res) => {
   try {
     return res.json([
@@ -5,6 +6,6 @@ exports.getTeam = async (req, res) => {
       { first_name: "Shafir", last_name: "Hafif" },
     ]);
   } catch (e) {
-    return res.status(500).json({ error: "server_error", details: e.message });
+    return serverError(req, res, e);
   }
 };
