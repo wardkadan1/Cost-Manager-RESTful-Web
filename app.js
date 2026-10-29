@@ -42,17 +42,22 @@ app.get("/", (req, res) => {
 // routes
 app.use("/api", apiRoutes);
 
-// connect DB
-mongoose
-  .connect(process.env.DB_URL, { dbName: "cost_manager" })
-  .then(() => baseLogger.info("Mongo connected"))
-  .catch((err) => {
-    baseLogger.error({ err }, "Mongo connect error");
-    process.exit(1);
-  });
+// connect DB and start the server only when run directly (`node app.js`),
+// so tests can import the app without a database or an open port.
+if (require.main === module) {
+  if (!process.env.LOGS_ACCESS_TOKEN) {
+    baseLogger.warn("LOGS_ACCESS_TOKEN is not set: GET /api/logs is public");
+  }
+  mongoose
+    .connect(process.env.DB_URL, { dbName: "cost_manager" })
+    .then(() => baseLogger.info("Mongo connected"))
+    .catch((err) => {
+      baseLogger.error({ err }, "Mongo connect error");
+      process.exit(1);
+    });
 
-// start server
-const port = process.env.PORT || 3000;
-app.listen(port, () => baseLogger.info(`Cost Manager API on ${port}`));
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => baseLogger.info(`Cost Manager API on ${port}`));
+}
 
 module.exports = app;

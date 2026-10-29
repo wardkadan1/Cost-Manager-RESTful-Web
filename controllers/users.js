@@ -1,3 +1,4 @@
+const serverError = require("../utils/serverError");
 const User = require("../models/User");
 const Cost = require("../models/Cost");
 
@@ -9,7 +10,7 @@ exports.listUsers = async (req, res) => {
     );
     return res.json(users);
   } catch (e) {
-    return res.status(500).json({ error: "server_error", details: e.message });
+    return serverError(req, res, e);
   }
 };
 
@@ -32,6 +33,6 @@ exports.getUserDetails = async (req, res) => {
       total,
     });
   } catch (e) {
-    return res.status(500).json({ error: "server_error", details: e.message });
+    return serverError(req, res, e);
   }
 };

@@ -1,3 +1,4 @@
+const serverError = require("../utils/serverError");
 const Report = require("../models/Report");
 const Cost = require("../models/Cost");
 
@@ -59,6 +60,6 @@ exports.getMonthlyReport = async (req, res) => {
     }
     return res.json({ userid: id, year, month, costs: grouped });
   } catch (e) {
-    return res.status(500).json({ error: "server_error", details: e.message });
+    return serverError(req, res, e);
   }
 };
